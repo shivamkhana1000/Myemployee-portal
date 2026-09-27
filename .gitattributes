@@ -1,0 +1,13 @@
+# Normalise line endings to LF in the repo; Git will convert to CRLF on
+# Windows checkouts automatically. This keeps diffs clean across platforms.
+* text=auto eol=lf
+
+# Force binary files to never be mangled
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary

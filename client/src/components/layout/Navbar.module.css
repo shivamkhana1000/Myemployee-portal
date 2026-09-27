@@ -1,0 +1,99 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 17, 23, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Brand ───────────────────────────────────────────────────────────────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brandIcon {
+  font-size: 1.4rem;
+  color: var(--color-accent);
+  display: inline-block;
+  animation: spin-slow 12s linear infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.brandName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.brandHighlight {
+  color: var(--color-primary);
+}
+
+/* ── Nav links ───────────────────────────────────────────────────────────── */
+.navList {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.navLink {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-2);
+}
+
+.navLinkActive {
+  color: var(--color-primary) !important;
+  background: rgba(79, 110, 247, 0.1) !important;
+}
+
+/* ── Auth placeholder ────────────────────────────────────────────────────── */
+.authPlaceholder {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
