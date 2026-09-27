@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-/* ── Google Fonts ────────────────────────────────────────────────────────────
-   Using Inter for body text and body readability; Outfit for headings.
-   Loaded via @import so no extra <link> tag is needed in index.html.        */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700;800&display=swap');
 
 /* ── Design tokens ───────────────────────────────────────────────────────────
    All colours live here so every component draws from the same palette.     */
