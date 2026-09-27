@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import healthRouter from './routes/health.routes';
 import authRouter from './routes/auth.routes';
+import ticketRouter from './routes/ticket.routes';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/tickets', ticketRouter);
 
 // 404 catch-all — keeps future route additions from silently returning HTML
 app.use((_req, res) => {
