@@ -4,9 +4,6 @@ import styles from './Navbar.module.css'
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
-  // Enabled progressively as phases complete:
-  // { label: 'IT Tickets', to: '/tickets' },
-  // { label: 'Gamba',      to: '/gamba' },
 ]
 
 export default function Navbar() {
@@ -17,7 +14,7 @@ export default function Navbar() {
       <div className={styles.inner}>
         {/* Brand */}
         <Link to="/" className={styles.brand} id="nav-brand">
-          <span className={styles.brandIcon} aria-hidden="true">⚙</span>
+          <span className={styles.brandLogo} aria-hidden="true">MEP</span>
           <span className={styles.brandName}>
             MyEmployee <span className={styles.brandHighlight}>Portal</span>
           </span>
@@ -84,7 +81,7 @@ export default function Navbar() {
           ) : (
             // ── Logged-out state ─────────────────────────────────────────────
             <Link to="/login" id="nav-signin-btn" className={styles.signInBtn}>
-              Sign In →
+              Sign In
             </Link>
           )}
         </div>

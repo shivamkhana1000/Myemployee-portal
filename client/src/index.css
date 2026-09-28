@@ -5,26 +5,26 @@
    All colours live here so every component draws from the same palette.     */
 :root {
   /* Brand */
-  --color-primary:        #4f6ef7;   /* electric indigo-blue          */
-  --color-primary-dark:   #3a55d4;
-  --color-accent:         #f97316;   /* manufacturing amber            */
-  --color-accent-dark:    #ea6c0a;
+  --color-primary:        #DC2626;   /* manufacturing plant red accent */
+  --color-primary-dark:   #B91C1C;
+  --color-accent:         #DC2626;
+  --color-accent-dark:    #B91C1C;
 
-  /* Neutrals (dark mode base) */
-  --color-bg:             #0f1117;
-  --color-surface:        #1a1d27;
-  --color-surface-2:      #232737;
-  --color-border:         #2e3347;
+  /* Neutrals (light mode base matching dashboard design language) */
+  --color-bg:             #F4F5F7;
+  --color-surface:        #FFFFFF;
+  --color-surface-2:      #F8FAFC;
+  --color-border:         #E2E8F0;
 
   /* Text */
-  --color-text-primary:   #eef0f8;
-  --color-text-secondary: #8b92ae;
-  --color-text-muted:     #565d7a;
+  --color-text-primary:   #1C2434;
+  --color-text-secondary: #64748B;
+  --color-text-muted:     #94A3B8;
 
   /* Status */
-  --color-success:        #22c55e;
-  --color-warning:        #f59e0b;
-  --color-error:          #ef4444;
+  --color-success:        #16A34A;
+  --color-warning:        #D97706;
+  --color-error:          #DC2626;
 
   /* Motion */
   --transition-fast:      150ms ease;
@@ -59,36 +59,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--color-primary);
+  color: #2563EB;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--color-primary-dark);
+  color: #1D4ED8;
 }
 
 /* ── Utility classes ─────────────────────────────────────────────────────────
    Small helpers used across components without Tailwind one-offs.           */
 .glass {
-  background: rgba(26, 29, 39, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #FFFFFF;
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 1.5rem;
   transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary), 0 8px 32px rgba(79, 110, 247, 0.12);
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .btn-primary {
@@ -96,7 +95,7 @@ a:hover {
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.5rem;
-  background: var(--color-primary);
+  background: #1C2434;
   color: #fff;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
@@ -104,13 +103,12 @@ a:hover {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-primary:hover {
-  background: var(--color-primary-dark);
+  background: #2E3A52;
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(79, 110, 247, 0.35);
 }
 
 .btn-primary:active {
@@ -127,7 +125,7 @@ a:hover {
   letter-spacing: 0.02em;
 }
 
-.badge--success { background: rgba(34,197,94,0.15); color: var(--color-success); }
-.badge--warning { background: rgba(245,158,11,0.15); color: var(--color-warning); }
-.badge--error   { background: rgba(239,68,68,0.15);  color: var(--color-error);   }
-.badge--info    { background: rgba(79,110,247,0.15); color: var(--color-primary); }
+.badge--success { background: #DCFCE7; color: var(--color-success); border: 1px solid #BBF7D0; }
+.badge--warning { background: #FEF3C7; color: var(--color-warning); border: 1px solid #FDE68A; }
+.badge--error   { background: #FEF2F2; color: var(--color-error);   border: 1px solid #FECACA; }
+.badge--info    { background: #EFF6FF; color: #2563EB;             border: 1px solid #DBEAFE; }

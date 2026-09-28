@@ -1,146 +1,84 @@
-import { useEffect, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import styles from './HomePage.module.css'
-import { fetchHealth, type HealthStatus } from '../services/api/health.api'
-
-type ApiState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'ok'; data: HealthStatus }
-  | { status: 'error'; message: string }
 
 const FEATURE_CARDS = [
   {
     icon: '🎫',
     title: 'IT Support Tickets',
-    description: 'Submit, track, and resolve IT issues with priority routing and SLA tracking.',
-    phase: 'Phase 3',
+    description: 'Raise and track requests with priority-based deadlines and automated SLA tracking.',
   },
   {
     icon: '🔄',
     title: 'Gamba / Continuous Improvement',
-    description: 'Log improvement observations from the plant floor and track resolution status.',
-    phase: 'Phase 4',
-  },
-  {
-    icon: '📊',
-    title: 'Manager Dashboard',
-    description: 'Aggregate views, KPIs, and assignment workflows for team leads.',
-    phase: 'Phase 5',
+    description: 'Submit and review improvement projects through a structured multi-stage review workflow.',
   },
   {
     icon: '🔐',
     title: 'Role-Based Access',
-    description: 'JWT authentication with Employee and Manager roles. Secure by default.',
-    phase: 'Phase 2',
+    description: 'Separate Employee and Manager views with secure role-specific capabilities and dedicated dashboards.',
   },
 ]
 
-/**
- * HomePage — the landing page of the portal.
- * It also demonstrates a live API call to GET /api/health so you can
- * verify client ↔ server communication in Phase 1.
- */
 export default function HomePage() {
-  const [apiState, setApiState] = useState<ApiState>({ status: 'idle' })
+  const { user, isLoading } = useAuth()
 
-  useEffect(() => {
-    setApiState({ status: 'loading' })
-    fetchHealth()
-      .then((data) => setApiState({ status: 'ok', data }))
-      .catch((err: Error) => setApiState({ status: 'error', message: err.message }))
-  }, [])
+  // Redirect authenticated users to the main dashboard
+  if (!isLoading && user) {
+    return <Navigate to="/dashboard" replace />
+  }
 
   return (
     <div className={styles.page}>
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className={styles.hero} aria-labelledby="hero-heading">
-        <div className={styles.heroGlow} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>
-            <span className="badge badge--info">⚙ Manufacturing Operations Platform</span>
+      <main className={styles.main}>
+        {/* Hero Section */}
+        <section className={styles.hero} aria-labelledby="hero-heading">
+          <div className={styles.brandBadge}>
+            <span className={styles.badgeDot} aria-hidden="true" />
+            Manufacturing Operations Platform
           </div>
+
           <h1 id="hero-heading" className={styles.heroTitle}>
-            Welcome to<br />
-            <span className={styles.heroTitleHighlight}>MyEmployee Portal</span>
+            MyEmployee Portal
           </h1>
+
           <p className={styles.heroSubtitle}>
-            Your unified hub for IT support, continuous improvement tracking,
-            and operational visibility — built for the plant floor.
+            Employee IT Support &amp; Continuous Improvement
           </p>
+
+          <p className={styles.heroDesc}>
+            A centralized workspace for plant floor employees to resolve IT incidents, propose Kaizen workflows, and drive operational excellence.
+          </p>
+
           <div className={styles.heroActions}>
-            <button className="btn-primary" id="hero-cta-login" disabled>
-              Sign In →
-              <span style={{ fontSize: '0.75rem', opacity: 0.75 }}>(Phase 2)</span>
-            </button>
+            <Link to="/login" id="hero-signin-btn" className={styles.signInBtn}>
+              Sign In
+            </Link>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── API Health Check ──────────────────────────────────────────────── */}
-      <section className={styles.healthSection} aria-labelledby="health-heading">
-        <div className={styles.container}>
-          <h2 id="health-heading" className={styles.sectionTitle}>
-            🩺 API Health Check
-          </h2>
-          <p className={styles.sectionSubtitle}>
-            Live status of the Express backend — verifies client ↔ server connectivity.
-          </p>
-
-          <div className={styles.healthCard} id="health-status-card">
-            {apiState.status === 'idle' && (
-              <p className={styles.healthMuted}>Connecting…</p>
-            )}
-            {apiState.status === 'loading' && (
-              <div className={styles.healthLoading}>
-                <span className={styles.spinner} aria-hidden="true" />
-                <span>Pinging <code>/api/health</code>…</span>
-              </div>
-            )}
-            {apiState.status === 'ok' && (
-              <div className={styles.healthOk}>
-                <div className={styles.healthRow}>
-                  <span className="badge badge--success">● Online</span>
-                  <span className={styles.healthMessage}>{apiState.data.message}</span>
-                </div>
-                <dl className={styles.healthMeta}>
-                  <div><dt>Timestamp</dt><dd>{apiState.data.timestamp}</dd></div>
-                  <div><dt>Uptime</dt><dd>{apiState.data.uptime}s</dd></div>
-                  <div><dt>Environment</dt><dd>{apiState.data.environment}</dd></div>
-                </dl>
-              </div>
-            )}
-            {apiState.status === 'error' && (
-              <div className={styles.healthError}>
-                <span className="badge badge--error">● Offline</span>
-                <p>{apiState.message}</p>
-                <p className={styles.healthMuted}>
-                  Make sure the server is running: <code>cd server &amp;&amp; npm run dev</code>
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Feature cards ─────────────────────────────────────────────────── */}
-      <section className={styles.featuresSection} aria-labelledby="features-heading">
-        <div className={styles.container}>
-          <h2 id="features-heading" className={styles.sectionTitle}>Platform Modules</h2>
-          <p className={styles.sectionSubtitle}>
-            Being built incrementally — each phase unlocks a new module.
-          </p>
+        {/* Feature Cards Section */}
+        <section className={styles.featuresSection} aria-label="Core Capabilities">
           <div className={styles.featureGrid}>
-            {FEATURE_CARDS.map(({ icon, title, description, phase }) => (
-              <article key={title} className="card" aria-label={title}>
-                <div className={styles.featureIcon} aria-hidden="true">{icon}</div>
-                <h3 className={styles.featureTitle}>{title}</h3>
-                <p className={styles.featureDesc}>{description}</p>
-                <span className="badge badge--info">{phase}</span>
+            {FEATURE_CARDS.map(({ icon, title, description }) => (
+              <article key={title} className={styles.card} aria-label={title}>
+                <div className={styles.cardIconWrap}>
+                  <span className={styles.cardIcon} aria-hidden="true">{icon}</span>
+                </div>
+                <h2 className={styles.cardTitle}>{title}</h2>
+                <p className={styles.cardDesc}>{description}</p>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          Independent prototype inspired by manufacturing workflows. Not an official Honda/HMSI system.
+        </p>
+      </footer>
     </div>
   )
 }

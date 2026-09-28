@@ -38,7 +38,7 @@ export default function App() {
             <Route path="/gamba/:id" element={<GambaDetailPage />} />
             <Route path="/gamba/:id/edit" element={<GambaFormPage />} />
             
-            {/* Notification routes to be added in future phases */}
+            {/* Notification routes */}
           </Route>
         </Route>
 

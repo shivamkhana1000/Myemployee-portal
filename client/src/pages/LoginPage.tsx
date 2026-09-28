@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import styles from './LoginPage.module.css'
 
@@ -20,7 +20,7 @@ export default function LoginPage() {
 
     try {
       await login(employeeId.trim(), password)
-      // login() navigates to /dashboard on success — no need to do it here
+      // login() navigates to /dashboard on success
     } catch (err) {
       setError((err as Error).message)
     } finally {
@@ -30,33 +30,27 @@ export default function LoginPage() {
 
   return (
     <div className={styles.page}>
-      {/* Background grid decoration */}
-      <div className={styles.bg} aria-hidden="true">
-        <div className={styles.bgGlow} />
-        <div className={styles.bgGrid} />
-      </div>
-
       <main className={styles.main}>
         {/* Brand */}
-        <div className={styles.brand}>
-          <span className={styles.brandIcon}>⚙</span>
+        <Link to="/" className={styles.brand} id="login-brand-link">
+          <span className={styles.brandLogo} aria-hidden="true">MEP</span>
           <span className={styles.brandName}>
             MyEmployee <span className={styles.brandHighlight}>Portal</span>
           </span>
-        </div>
+        </Link>
 
         {/* Card */}
         <div className={styles.card} role="region" aria-label="Login form">
           <div className={styles.cardHeader}>
-            <h1 className={styles.heading}>Welcome back</h1>
-            <p className={styles.subheading}>Sign in with your employee credentials</p>
+            <h1 className={styles.heading}>Sign In</h1>
+            <p className={styles.subheading}>Enter your employee credentials to access the portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form} noValidate>
             {/* Error banner */}
             {error && (
               <div className={styles.errorBanner} role="alert">
-                <span>⚠</span>
+                <span aria-hidden="true">⚠</span>
                 <span>{error}</span>
               </div>
             )}
@@ -110,16 +104,28 @@ export default function LoginPage() {
                   Signing in…
                 </>
               ) : (
-                'Sign In →'
+                'Sign In'
               )}
             </button>
           </form>
 
-          {/* Dev hint */}
-          <p className={styles.hint}>
-            Dev credentials: <code>EMP001</code> / <code>Employee@123</code>
-          </p>
+          {/* Demo hint box */}
+          <div className={styles.hintBox}>
+            <span className={styles.hintTitle}>Demo Credentials:</span>
+            <div className={styles.hintRow}>
+              <span>Employee:</span>
+              <code>EMP001</code> / <code>Employee@123</code>
+            </div>
+            <div className={styles.hintRow}>
+              <span>Manager:</span>
+              <code>MGR001</code> / <code>Manager@123</code>
+            </div>
+          </div>
         </div>
+
+        <p className={styles.footerNote}>
+          Independent prototype inspired by manufacturing workflows.
+        </p>
       </main>
     </div>
   )
