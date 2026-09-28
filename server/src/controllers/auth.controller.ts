@@ -1,9 +1,17 @@
-import { Request, Response } from 'express';
+﻿import { Request, Response, NextFunction } from 'express';
 import { loginUser, getUserById } from '../services/auth.service';
+
+// The single generic message used for both "not found" and "wrong password".
+// Defined here so tests can import it for exact-match assertions.
+export const INVALID_CREDENTIALS_MSG = 'Invalid employee ID or password';
 
 // ── POST /api/auth/login ──────────────────────────────────────────────────────
 
-export async function login(req: Request, res: Response): Promise<void> {
+export async function login(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const { employeeId, password } = req.body as {
     employeeId?: string;
     password?: string;
@@ -21,28 +29,40 @@ export async function login(req: Request, res: Response): Promise<void> {
     const token = await loginUser(employeeId, password);
     res.status(200).json({ success: true, token });
   } catch (err) {
-    // loginUser throws a generic message for both "not found" and "wrong password"
-    res.status(401).json({ success: false, message: (err as Error).message });
+    const message = (err as Error).message;
+
+    // loginUser throws INVALID_CREDENTIALS_MSG for both "not found" and
+    // "wrong password" — these are expected, safe-to-expose auth errors.
+    // Any OTHER message (e.g. a pg database error) is an infrastructure
+    // failure and must NOT be shown to the user.
+    if (message === INVALID_CREDENTIALS_MSG) {
+      res.status(401).json({ success: false, message });
+    } else {
+      // Forward to the global error handler which will log and return 500
+      next(err);
+    }
   }
 }
 
 // ── GET /api/auth/me ──────────────────────────────────────────────────────────
 
-export async function me(req: Request, res: Response): Promise<void> {
-  // req.user is guaranteed by verifyToken middleware on this route
+export async function me(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const userId = req.user!.userId;
 
   try {
     const user = await getUserById(userId);
 
     if (!user) {
-      // Rare: token is valid but the user was deleted from the DB
       res.status(404).json({ success: false, message: 'User not found' });
       return;
     }
 
     res.status(200).json({ success: true, user });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    next(err); // global error handler → generic 500
   }
 }

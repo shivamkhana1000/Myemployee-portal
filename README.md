@@ -1,16 +1,40 @@
 # MyEmployee Portal
 
-> A fictional employee IT-support + continuous-improvement (Gamba) platform, 
-> inspired by manufacturing workflows. Built incrementally as a full-stack prototype.
+[![CI](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml)
+
+> **IT Support & Continuous Improvement (Kaizen / Gamba) Management Portal**  
+> An enterprise-inspired full-stack web application designed for industrial/manufacturing plant workflows, featuring role-based access control (RBAC), SLA deadline calculation, knowledge-base solution suggestions, and automated CI/CD validation.
+
+---
+
+> [!NOTE]  
+> **Disclaimer:** This project is an **independent prototype and portfolio project** inspired by manufacturing and continuous-improvement workflows. It is **not** an official Honda or HMSI (Honda Motorcycle and Scooter India) system, nor is it affiliated with, endorsed by, or sponsored by Honda Motor Co., Ltd. or HMSI.
+
+---
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18 + TypeScript + React Router + Tailwind CSS v4 |
-| Backend | Node.js + Express + TypeScript |
-| Database | PostgreSQL with raw SQL *(Phase 2+)* |
-| Auth | Employee ID + Password, JWT, Role-Based *(Phase 2+)* |
+| **Frontend** | React 19 + TypeScript + Vite + Tailwind CSS v4 + React Router v7 |
+| **Backend** | Node.js (LTS) + Express + TypeScript |
+| **Database** | PostgreSQL (Neon serverless in dev, throwaway service container in CI) |
+| **Auth & Security** | JWT (JSON Web Tokens), bcryptjs password hashing, role-based middleware (Employee vs. Manager) |
+| **CI / Automation** | GitHub Actions (automated linting, database migrations, tests, production builds) |
+| **Testing** | Jest + Supertest (integration + unit test suites) |
+
+---
+
+## Key Features
+
+- **Authentication & RBAC:** Secure JWT authentication with strict role-based separation between Employees (raise tickets, submit Gamba proposals) and Managers (assign, update status, approve Gamba projects).
+- **IT Support Ticket Management:**
+  - Automated SLA deadline assignment based on severity (Low = +72h, Medium = +48h, High = +24h, Critical = +4h).
+  - Dynamic overdue status detection for unresolved issues.
+  - Interactive discussion thread comments on each ticket.
+- **AI-Assisted Solution Suggestions:** Real-time debounced search against historical resolution records to recommend known fixes before ticket submission.
+- **Continuous Improvement (Gamba / Kaizen):** Multi-stage review workflow (`draft` → `submitted` → `under_review` → `approved` / `changes_requested` → `implemented` → `completed`) with strict role-enforced state transitions.
+- **Enterprise Error Hardening:** Centralized global error handling ensuring internal infrastructure exceptions (such as database connection or authentication failures) never leak sensitive details or SQL state codes to clients.
 
 ---
 
@@ -18,146 +42,202 @@
 
 ```
 MyEmployee-Portal/
-├── client/          # React + Vite frontend
+├── .github/
+│   └── workflows/
+│       └── ci.yml        # GitHub Actions continuous integration pipeline
+├── client/               # React + Vite frontend
 │   ├── src/
-│   │   ├── components/   # Reusable UI components
-│   │   │   └── layout/   # Navbar, Layout shell
-│   │   ├── pages/        # Route-level page components
-│   │   ├── services/     # API fetch wrappers (no raw fetch in components)
-│   │   │   └── api/
-│   │   ├── hooks/        # Custom React hooks (added in later phases)
-│   │   ├── context/      # React context providers (added in later phases)
-│   │   └── types/        # Shared TypeScript interfaces (added in later phases)
-│   └── index.html
-│
-└── server/          # Express + TypeScript backend
-    └── src/
-        ├── routes/       # Express routers — thin, only map URL → controller
-        ├── controllers/  # Request/response handling — delegates to services
-        └── services/     # Business logic — no HTTP knowledge here
+│   │   ├── components/   # Reusable UI components & layout shell
+│   │   ├── context/      # Auth & application state context
+│   │   ├── pages/        # Route views (Login, Tickets, Gamba, Dashboard)
+│   │   ├── services/     # API fetch clients (no inline fetch calls)
+│   │   └── types/        # TypeScript interfaces and contracts
+│   ├── package.json
+│   └── vite.config.ts
+├── server/               # Express + TypeScript backend
+│   ├── src/
+│   │   ├── controllers/  # Request / response orchestration
+│   │   ├── db/           # Connection pool, schema.sql, seed scripts
+│   │   ├── lib/          # Business rules (deadline calculation, Gamba state machines)
+│   │   ├── middleware/   # JWT verification, RBAC guard, global error handling
+│   │   ├── routes/       # Express route definitions
+│   │   ├── services/     # Database queries & business logic
+│   │   └── tests/        # Jest + Supertest unit and integration test suites
+│   ├── package.json
+│   └── tsconfig.json
+└── README.md
 ```
 
 ---
 
-## Getting Started
+## Running Locally
 
 ### Prerequisites
 
-- Node.js ≥ 18
-- npm ≥ 9
-- PostgreSQL *(required only from Phase 2 onwards)*
+- **Node.js**: v18 or v20 LTS (v20 recommended)
+- **npm**: v9 or higher
+- **PostgreSQL**: A local PostgreSQL instance or a free cloud database (e.g., [Neon](https://neon.tech))
 
----
-
-### 1. Clone & Install
+### 1. Clone & Install Dependencies
 
 ```bash
-# Install server dependencies
+# Clone the repository
+git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+cd MyEmployee-Portal
+
+# Install backend dependencies
 cd server
 npm install
 
-# Install client dependencies
+# Install frontend dependencies
 cd ../client
 npm install
 ```
 
----
+### 2. Configure Environment Variables
 
-### 2. Environment Variables
-
-**Server:**
+Create a `.env` file in the `server/` directory:
 
 ```bash
 cd server
-copy .env.example .env   # Windows
-# Edit .env and fill in your values
+cp .env.example .env    # On Windows: copy .env.example .env
 ```
 
-Key variables (see [`server/.env.example`](./server/.env.example)):
+Configure the following variables in `server/.env`:
 
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Port the Express server listens on (default: `5000`) |
-| `NODE_ENV` | `development` or `production` |
-| `CLIENT_ORIGIN` | CORS allowed origin (default: `http://localhost:5173`) |
-| `DATABASE_URL` | PostgreSQL connection string *(Phase 2+)* |
-| `JWT_SECRET` | Long random string for signing JWTs *(Phase 2+)* |
+```env
+PORT=5000
+NODE_ENV=development
+CLIENT_ORIGIN=http://localhost:5173
 
----
+# PostgreSQL connection string
+DATABASE_URL=postgresql://username:password@localhost:5432/myemployee_portal
 
-### 3. Run in Development
+# Long random string for JWT signing
+JWT_SECRET=super_secret_jwt_key_min_32_characters_long
+JWT_EXPIRES_IN=8h
+```
 
-Open **two terminals**:
+### 3. Initialize the Database
 
-**Terminal 1 — Backend:**
+Run migrations to apply the schema (`schema.sql`) and seed test users and reference data:
+
+```bash
+cd server
+npm run db:setup
+```
+
+### 4. Start the Application
+
+Open **two terminal windows**:
+
+**Terminal 1 — Backend (Express API):**
 ```bash
 cd server
 npm run dev
-# → Express running on http://localhost:5000
-# → Health check: http://localhost:5000/api/health
+# Server starts at http://localhost:5000
+# Health check available at: http://localhost:5000/api/health
 ```
 
-**Terminal 2 — Frontend:**
+**Terminal 2 — Frontend (Vite + React):**
 ```bash
 cd client
 npm run dev
-# → Vite running on http://localhost:5173
-# → Proxies /api/* to http://localhost:5000
+# Web application starts at http://localhost:5173
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## API Reference
+## Demo Credentials
 
-### Health
+The database seed provides pre-configured accounts for testing both employee and manager workflows:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/health` | Returns server status, uptime, and environment |
+| Role | Employee ID | Password | Department | Permissions |
+|------|------------|----------|------------|-------------|
+| **Employee** | `EMP001` | `Employee@123` | Information Technology | Raise tickets, view personal tickets & Gamba projects |
+| **Employee** | `EMP002` | `Employee@123` | Engineering | Raise tickets, view personal tickets & Gamba projects |
+| **Employee** | `EMP003` | `Employee@123` | Production | Raise tickets, view personal tickets & Gamba projects |
+| **Manager** | `MGR001` | `Manager@123` | Information Technology | View all tickets, update ticket status, review Gamba proposals |
+| **Manager** | `MGR002` | `Manager@123` | Engineering | View all tickets, update ticket status, review Gamba proposals |
 
-**Example response:**
-```json
-{
-  "success": true,
-  "message": "MyEmployee Portal API is healthy",
-  "timestamp": "2026-09-27T15:00:00.000Z",
-  "uptime": 42,
-  "environment": "development"
-}
+---
+
+## Running Tests
+
+The test suite covers pure business logic units (offline, zero DB dependencies) and full API integration tests with Supertest:
+
+```bash
+cd server
+
+# Run the complete test suite (all 62 tests across 4 suites)
+npm test
+
+# Run pure unit tests only (fast, no database required)
+npm run test:unit
 ```
 
+### Test Suite Structure
+
+1. **`business-rules.test.ts` (Unit Tests):**
+   - SLA deadline calculations based on priority (`Low` = +72h, `Medium` = +48h, `High` = +24h, `Critical` = +4h).
+   - Overdue calculation (past deadline + unresolved status).
+   - Gamba state machine transitions (valid steps accepted, illegal jumps rejected for both employees and managers).
+2. **`auth.test.ts` (API Integration Tests):**
+   - Successful login returns signed JWT tokens.
+   - Wrong password or unknown employee ID returns generic 401.
+   - Missing fields validation (400).
+   - Protected routes return 401 without valid Bearer token.
+   - RBAC enforcement: employees get 403 when attempting manager-only endpoints.
+3. **`tickets.test.ts` (API Integration Tests):**
+   - Ticket creation validation and accurate deadline persistence.
+   - Manager PATCH operations for ticket status and resolutions.
+   - **Data isolation strategy:** Tests tag rows with run-scoped UUID markers (`[TEST:<uuid>]`) and clean up via `afterAll`, ensuring existing data remains completely untouched.
+4. **`error-handling.test.ts` (Resilience Tests):**
+   - Simulated database outage/authentication failure returns safe generic 500 without leaking raw SQL or connection strings.
+
 ---
 
-## Build Phases
+## Continuous Integration (GitHub Actions)
 
-| Phase | Status | Description |
-|-------|--------|-------------|
-| **Phase 1** | ✅ Done | Project skeleton, Express health-check, React home page |
-| **Phase 2** | ⏳ Next | Auth — JWT login, role-based guard, protected routes |
-| **Phase 3** | ⏳ | IT Support Ticket CRUD |
-| **Phase 4** | ⏳ | Gamba / Continuous Improvement module |
-| **Phase 5** | ⏳ | Manager dashboard & KPI views |
+Every push and pull request to the `main` branch is validated automatically via [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
+
+- **Backend Job:**
+  - Spins up a dedicated PostgreSQL 16 Alpine service container.
+  - Caches npm dependencies for rapid execution.
+  - Runs ESLint validation.
+  - Runs database migrations and seed script against the CI container.
+  - Executes the full Jest test suite with Supertest.
+  - Compiles TypeScript to verify build correctness (`npm run build`).
+- **Frontend Job:**
+  - Caches npm dependencies.
+  - Runs code linting.
+  - Builds the production bundle (`npm run build`) via Vite.
 
 ---
 
-## Scripts
+## Available Scripts
 
-### Server (`cd server`)
+### Backend (`server/`)
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start with `ts-node-dev` (hot reload) |
-| `npm run build` | Compile TypeScript to `dist/` |
-| `npm start` | Run compiled JS from `dist/` |
-| `npm run lint` | ESLint check |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with hot reloading (`ts-node-dev`) |
+| `npm run build` | Compile TypeScript into production JavaScript (`dist/`) |
+| `npm start` | Run compiled server in production mode |
+| `npm run lint` | Run ESLint checks on `src/` |
+| `npm run db:migrate` | Execute `schema.sql` database migration |
+| `npm run db:seed` | Seed database with demo users and knowledge base records |
+| `npm run db:setup` | Run both migration and seeding in sequence |
+| `npm test` | Run full test suite with Jest |
+| `npm run test:unit` | Run unit tests only (no DB required) |
 
-### Client (`cd client`)
+### Frontend (`client/`)
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start Vite dev server |
-| `npm run build` | Production bundle to `dist/` |
-| `npm run preview` | Serve production bundle locally |
-| `npm run lint` | ESLint check |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite development server with HMR |
+| `npm run build` | Type-check with `tsc` and create optimized production bundle |
+| `npm run lint` | Run linter on frontend source code |
+| `npm run preview` | Locally preview the built production bundle |

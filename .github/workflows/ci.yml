@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend:
+    name: Backend CI (Node.js & PostgreSQL)
+    runs-on: ubuntu-latest
+
+    # Ephemeral PostgreSQL service container for running integration tests
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: myemployee_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # Safe throwaway environment variables — never real production secrets
+    env:
+      DATABASE_URL: postgresql://test_user:test_password@localhost:5432/myemployee_test
+      DATABASE_URL_POOLED: postgresql://test_user:test_password@localhost:5432/myemployee_test
+      JWT_SECRET: ci-fake-jwt-secret-do-not-use-in-production-only-for-tests-1234567890
+      PORT: 5000
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Run server linter
+        working-directory: server
+        run: npm run lint
+
+      - name: Apply database schema & seed test data
+        working-directory: server
+        run: npm run db:setup
+
+      - name: Run backend tests
+        working-directory: server
+        run: npm test
+
+      - name: Build backend (TypeScript compilation)
+        working-directory: server
+        run: npm run build
+
+  frontend:
+    name: Frontend CI (React & Vite)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run client linter
+        working-directory: client
+        run: npm run lint
+
+      - name: Build client (Vite production bundle)
+        working-directory: client
+        run: npm run build

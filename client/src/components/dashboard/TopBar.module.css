@@ -1,0 +1,159 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid #E2E8F0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+/* ── Hamburger ───────────────────────────────────────────────────────────── */
+.menuBtn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #64748B;
+  padding: 0.3rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 150ms;
+}
+.menuBtn:hover { color: #1C2434; }
+
+/* ── Search ──────────────────────────────────────────────────────────────── */
+.searchWrap {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.7rem;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.45rem 0.75rem 0.45rem 2.2rem;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #1C2434;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.searchInput::placeholder { color: #94A3B8; }
+.searchInput:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.12);
+}
+
+/* ── Right section ───────────────────────────────────────────────────────── */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.date {
+  font-size: 0.78rem;
+  color: #64748B;
+  white-space: nowrap;
+}
+
+/* ── Notification bell ───────────────────────────────────────────────────── */
+.notifBtn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  color: #64748B;
+  transition: color 150ms;
+}
+.notifBtn:hover { color: #1C2434; }
+
+.notifBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  background: #DC2626;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+
+/* ── User chip ───────────────────────────────────────────────────────────── */
+.userChip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  cursor: default;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  background: #1C2434;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.userName {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #1C2434;
+  white-space: nowrap;
+}
+
+.userRole {
+  font-size: 0.68rem;
+  color: #64748B;
+}
+
+.signOutBtn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #94A3B8;
+  padding: 0.1rem 0.2rem;
+  transition: color 150ms;
+}
+.signOutBtn:hover { color: #DC2626; }

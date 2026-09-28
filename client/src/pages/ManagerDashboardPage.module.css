@@ -1,0 +1,100 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.loading {
+  padding: 2rem;
+  color: #64748B;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1C2434;
+  margin: 0 0 0.25rem 0;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.sectionTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sectionIconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sectionIcon {
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1C2434;
+  margin: 0 0 0.15rem 0;
+}
+
+.sectionSubtitle {
+  font-size: 0.75rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.viewAllBtn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748B;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  background: #fff;
+  transition: border-color 150ms, color 150ms;
+}
+
+.viewAllBtn:hover {
+  color: #1C2434;
+  border-color: #CBD5E1;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}

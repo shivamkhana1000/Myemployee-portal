@@ -1,0 +1,68 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loading { padding: 2rem; color: #64748B; }
+.error { padding: 2rem; color: #DC2626; }
+.errorBanner { background: #FEF2F2; color: #DC2626; padding: 1rem; border-radius: 8px; border: 1px solid #FECACA; }
+
+.backBtn {
+  align-self: flex-start;
+  background: none; border: none; color: #64748B;
+  font-size: 0.85rem; cursor: pointer; padding: 0;
+}
+.backBtn:hover { color: #1C2434; text-decoration: underline; }
+
+.title { font-size: 1.5rem; font-weight: 700; color: #1C2434; margin: 0 0 0.25rem 0; }
+.subtitle { font-size: 0.85rem; color: #64748B; margin: 0; }
+
+.form { display: flex; flex-direction: column; gap: 2rem; }
+
+.section {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sectionTitle { font-size: 1.1rem; font-weight: 700; color: #1C2434; margin: 0; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.75rem; }
+
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.field label { font-size: 0.85rem; font-weight: 600; color: #334155; }
+.field input, .field textarea {
+  padding: 0.6rem 0.75rem; border: 1px solid #CBD5E1; border-radius: 6px;
+  font-size: 0.85rem; font-family: inherit; color: #1C2434;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+.field textarea { min-height: 100px; resize: vertical; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+
+@media (max-width: 640px) {
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+}
+
+.teamInputWrap { display: flex; gap: 0.5rem; }
+.teamInputWrap input { flex: 1; }
+.addBtn { padding: 0 1rem; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 6px; cursor: pointer; font-weight: 600; color: #334155; }
+.addBtn:hover { background: #E2E8F0; }
+
+.teamTags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.tag { background: #EFF6FF; color: #1D4ED8; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 0.25rem; border: 1px solid #BFDBFE; }
+.tag button { background: none; border: none; color: #1D4ED8; cursor: pointer; padding: 0; font-size: 1rem; line-height: 1; }
+.tag button:hover { color: #DC2626; }
+
+.actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
+.btnDraft { padding: 0.6rem 1.25rem; background: #fff; border: 1px solid #CBD5E1; border-radius: 6px; font-weight: 600; color: #334155; cursor: pointer; }
+.btnDraft:hover:not(:disabled) { background: #F8FAFC; border-color: #94A3B8; }
+.btnSubmit { padding: 0.6rem 1.25rem; background: #2563EB; border: 1px solid #2563EB; border-radius: 6px; font-weight: 600; color: #fff; cursor: pointer; }
+.btnSubmit:hover:not(:disabled) { background: #1D4ED8; border-color: #1D4ED8; }
+.btnSubmit:disabled, .btnDraft:disabled { opacity: 0.6; cursor: not-allowed; }

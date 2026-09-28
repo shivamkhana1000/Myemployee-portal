@@ -1,0 +1,211 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.loading, .error {
+  padding: 2rem;
+  color: #64748B;
+}
+.error { color: #DC2626; }
+
+.backBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+}
+.backBtn:hover { color: #1C2434; text-decoration: underline; }
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1C2434;
+  margin: 0 0 0.25rem 0;
+  flex-wrap: wrap;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.overdue {
+  color: #DC2626;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #FEF2F2;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.managerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.statusSelect {
+  padding: 0.45rem 1rem 0.45rem 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1C2434;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+.statusSelect:focus { border-color: #2563EB; }
+
+.btnSecondary {
+  padding: 0.45rem 0.75rem;
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1C2434;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.btnSecondary:hover { background: #F8FAFC; border-color: #CBD5E1; }
+
+.btnPrimary {
+  padding: 0.5rem 1rem;
+  background: #2563EB;
+  border: 1px solid #2563EB;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 150ms;
+  align-self: flex-end;
+}
+.btnPrimary:hover:not(:disabled) { background: #1D4ED8; border-color: #1D4ED8; }
+.btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.mainCol { display: flex; flex-direction: column; gap: 1.5rem; }
+.sideCol { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.card {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resolutionCard {
+  background: #F0FDF4;
+  border-color: #BBF7D0;
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1C2434;
+  margin: 0;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 0.75rem;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.detailsList {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+}
+.detailsList dt { color: #64748B; font-weight: 500; }
+.detailsList dd { color: #1C2434; margin: 0; font-weight: 600; }
+
+.unassigned { color: #94A3B8; font-style: italic; font-weight: 400; }
+.overdueText { color: #DC2626; }
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.noComments { color: #94A3B8; font-size: 0.85rem; margin: 0; }
+
+.comment {
+  background: #F8FAFC;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.commentAuthor { font-weight: 600; font-size: 0.85rem; color: #1C2434; }
+.commentDate { font-size: 0.75rem; color: #64748B; }
+
+.commentText {
+  font-size: 0.85rem;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+}
+.textarea:focus { outline: none; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }

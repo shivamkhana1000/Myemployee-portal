@@ -1,4 +1,5 @@
 import pool from '../db/pool';
+import { calcDeadline } from '../lib/business-rules';
 import type {
   CreateTicketInput,
   UpdateTicketInput,
@@ -7,34 +8,9 @@ import type {
   TicketSummary,
   TicketDetail,
   CommentRow,
-  TicketPriority,
 } from '../types/ticket.types';
 
-// ── Deadline calculation ──────────────────────────────────────────────────────
-
-/**
- * Maps a ticket priority to its SLA deadline.
- *
- *   critical → +4 hours  (P1: same-day response)
- *   high     → +1 day    (P2)
- *   medium   → +2 days   (P3)
- *   low      → +3 days   (P4)
- *
- * Deadlines are computed from the moment of creation (not midnight), so a
- * "high" ticket opened at 09:00 must be resolved by 09:00 the next day.
- */
-const DEADLINE_HOURS: Record<TicketPriority, number> = {
-  critical: 4,
-  high:     24,
-  medium:   48,
-  low:      72,
-};
-
-function calcDeadline(priority: TicketPriority, from: Date = new Date()): Date {
-  const deadline = new Date(from);
-  deadline.setHours(deadline.getHours() + DEADLINE_HOURS[priority]);
-  return deadline;
-}
+// calcDeadline is now imported from ../lib/business-rules (shared with tests)
 
 // ── Shared SQL fragment ───────────────────────────────────────────────────────
 

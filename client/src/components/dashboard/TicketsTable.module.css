@@ -1,0 +1,157 @@
+.container {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1C2434;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.6rem;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 200px;
+  padding: 0.35rem 0.6rem 0.35rem 1.8rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #1C2434;
+  outline: none;
+}
+.searchInput:focus {
+  border-color: #2563EB;
+}
+
+.statusSelect {
+  padding: 0.35rem 1.5rem 0.35rem 0.6rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #1C2434;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  padding: 0.85rem 1.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748B;
+  background: #F8FAFC;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.table td {
+  padding: 0.85rem 1.25rem;
+  font-size: 0.8rem;
+  color: #1C2434;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.idCol a {
+  font-weight: 600;
+  color: #1C2434;
+  text-decoration: none;
+}
+.idCol a:hover {
+  text-decoration: underline;
+  color: #2563EB;
+}
+
+.deadlineCol {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.deadlineDiff {
+  color: #64748B;
+  font-size: 0.75rem;
+}
+
+.overdueIcon {
+  color: #DC2626;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: #FEF2F2;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.actionCol {
+  text-align: right;
+  padding-right: 1.25rem !important;
+}
+
+.viewLink {
+  color: #94A3B8;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+.viewLink:hover {
+  color: #1C2434;
+}
+
+.empty {
+  text-align: center;
+  color: #64748B;
+  padding: 2rem !important;
+}

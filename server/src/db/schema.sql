@@ -118,11 +118,13 @@ CREATE TABLE IF NOT EXISTS gamba_projects (
   expected_benefits       TEXT,
   estimated_cost          NUMERIC(12, 2),
   actual_savings          NUMERIC(12, 2),
-  productivity_improvement NUMERIC(5, 2), -- percentage, e.g. 12.50 = 12.50 %
+  productivity_improvement VARCHAR(100),
+  team_members            JSONB          DEFAULT '[]'::jsonb,
+  manager_comment         TEXT,
   status                  VARCHAR(20)    NOT NULL DEFAULT 'draft'
                             CHECK (status IN (
-                              'draft', 'submitted', 'in_review',
-                              'approved', 'in_progress', 'completed', 'rejected'
+                              'draft', 'submitted', 'under_review',
+                              'changes_requested', 'approved', 'implemented', 'completed'
                             )),
   created_at              TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
   updated_at              TIMESTAMPTZ    NOT NULL DEFAULT NOW()
@@ -131,18 +133,6 @@ CREATE TABLE IF NOT EXISTS gamba_projects (
 CREATE OR REPLACE TRIGGER gamba_projects_set_updated_at
   BEFORE UPDATE ON gamba_projects
   FOR EACH ROW EXECUTE FUNCTION trigger_set_updated_at();
-
-
--- ---------------------------------------------------------------------------
--- gamba_members
--- Team members listed on a Gamba project (stored as plain names, not user
--- FKs, because external or contract workers may be included).
--- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS gamba_members (
-  id               SERIAL       PRIMARY KEY,
-  gamba_project_id INT          NOT NULL REFERENCES gamba_projects(id) ON DELETE CASCADE,
-  member_name      VARCHAR(150) NOT NULL
-);
 
 
 -- ---------------------------------------------------------------------------
@@ -188,7 +178,11 @@ CREATE INDEX IF NOT EXISTS idx_tickets_status              ON tickets(status);
 CREATE INDEX IF NOT EXISTS idx_ticket_comments_ticket_id   ON ticket_comments(ticket_id);
 CREATE INDEX IF NOT EXISTS idx_gamba_projects_employee_id  ON gamba_projects(employee_id);
 CREATE INDEX IF NOT EXISTS idx_gamba_projects_status       ON gamba_projects(status);
-CREATE INDEX IF NOT EXISTS idx_gamba_members_project_id    ON gamba_members(gamba_project_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_user_id       ON notifications(user_id);
 CREATE INDEX IF NOT EXISTS idx_attachments_ticket_id       ON attachments(ticket_id);
 CREATE INDEX IF NOT EXISTS idx_attachments_gamba_id        ON attachments(gamba_project_id);
+
+-- GIN index for fast full-text search on historical_solutions
+CREATE INDEX IF NOT EXISTS idx_historical_solutions_fts
+  ON historical_solutions
+  USING GIN (to_tsvector('english', problem_description || ' ' || resolution));
